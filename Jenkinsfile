@@ -50,7 +50,7 @@ pipeline {
             }
 
             // Run the new container
-            docker.image("abhilabh/employee:latest").run("-p 8081:9997", "--name employee")
+            docker.image("abhilabh/employee:latest").run("-d", "-p", "8081:9997", "--name", "employee")
         }
     }
 }
