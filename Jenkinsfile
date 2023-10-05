@@ -40,16 +40,19 @@ pipeline {
         }
         
         stage('Deploy Container') {
-            steps {
-                script {
-                    // Stop and remove any existing container
-                    docker.image("abhilabh/employee:latest").stop()
-                    docker.image("abhilabh/employee:latest").remove()
-
-                    // Run the new container
-                    docker.image("abhilabh/employee:latest").run("-p 8081:9997", "--name employee")
-                }
+    steps {
+        script {
+            // Remove any existing container with the same name
+            try {
+                docker.image("abhilabh/employee:latest").remove()
+            } catch (Exception e) {
+                // Ignore any errors if the container doesn't exist
             }
+
+            // Run the new container
+            docker.image("abhilabh/employee:latest").run("-p 8081:9997", "--name employee")
         }
+    }
+}
     }
 }
